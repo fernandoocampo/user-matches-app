@@ -7,4 +7,8 @@ export class UserFinderService {
 
   constructor() { }
 
+  getUsers(): User[] {
+    return USERS;
+  }
+
 }
