@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../user'
+import { UserFinderService } from '../user-finder.service'
 
 @Component({
   selector: 'app-matches',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MatchesComponent implements OnInit {
 
-  constructor() { }
+  users: User[]
+
+  constructor(private userFinderService: UserFinderService) { }
 
   ngOnInit() {
+  }
+
+  getUsers(): void {
+    this.userFinderService.getUsers()
+    .subscribe(users => this.users = users);
   }
 
 }
