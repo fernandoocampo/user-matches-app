@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
+import { UserFinderService } from './user-finder.service';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { MatchesComponent } from './matches/matches.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [UserFinderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
