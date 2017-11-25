@@ -10,7 +10,6 @@ import {
 
 import { User } from '../user';
 import { Result } from '../result';
-import { USERS } from '../users';
 import { UserFilter } from '../user-filter';
 import { UserFinderService } from '../user-finder.service';
 
@@ -23,6 +22,9 @@ export class MatchesComponent implements OnInit {
 
   result: Result;
   results: Result[];
+  scores: number[];
+  ages: number[];
+  heights: number[];
   users: User[];
 
   model = new UserFilter();
@@ -30,6 +32,9 @@ export class MatchesComponent implements OnInit {
   constructor(private userFinderService: UserFinderService) { }
 
   ngOnInit() {
+    this.scores = Array(100).fill(99,1,100).map((x,i)=>i);
+    this.ages = Array(79).fill(79,1,79).map((x,i)=>i+17);
+    this.heights = Array(76).fill(76,1,76).map((x,i)=>i+134);
   }
 
   /**
@@ -46,7 +51,7 @@ export class MatchesComponent implements OnInit {
    * invokes the service to search users that match the filters.
    */
   getUsers(): void {
-    this.userFinderService.getUsers()
+    this.userFinderService.getUsers(this.model)
     .subscribe((result: Result[]) => { this.results = <Result[]>result });
   }
 

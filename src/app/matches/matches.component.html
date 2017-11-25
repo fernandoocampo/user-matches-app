@@ -5,26 +5,43 @@
     <form>
       <div class="form-group">
         <label for="hasphoto">has photo?</label>
-        <input type="checkbox" class="form-control" id="hasphoto" [(ngModel)]="model.hasphoto" name="hasphoto">
+        <select name="hasphoto" id="hasphoto" class="form-control" [(ngModel)]="model.hasphoto">
+          <option value=""></option>
+          <option value="true">yes</option>
+          <option value="false">no</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="incontact">is in contact?</label>
-        <input type="checkbox" class="form-control" id="incontact" [(ngModel)]="model.incontact" name="incontact">
+        <select name="incontact" id="incontact" class="form-control" [(ngModel)]="model.incontact">
+          <option value=""></option>
+          <option value="true">yes</option>
+          <option value="false">no</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="isfavourite">is favourite?</label>
-        <input type="checkbox" class="form-control" id="isfavourite" [(ngModel)]="model.isfavourite" name="isfavourite">
+        <select name="isfavourite" id="isfavourite" class="form-control" [(ngModel)]="model.isfavourite">
+          <option value=""></option>
+          <option value="true">yes</option>
+          <option value="false">no</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="compatibilityscore">Compatibility score range</label>
         <div name="compatibilityscore">
           <div class="form-group">
             <label for="mincompatibilityscore">Min</label>
-            <input type="range" class="form-control" name="mincompatibilityscore" id="mincompatibilityscore" [(ngModel)]="model.mincompatibilityscore">
+            <select name="mincompatibilityscore" id="mincompatibilityscore" class="form-control" [(ngModel)]="model.mincompatibilityscore">
+              <option value=""></option>
+              <option *ngFor="let score of scores" value="{{score}}">{{score}}</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="maxcompatibilityscore">Max</label>
-            <input type="range" class="form-control" name="maxcompatibilityscore" id="maxcompatibilityscore" [(ngModel)]="model.maxcompatibilityscore">
+            <select name="maxcompatibilityscore" id="maxcompatibilityscore" class="form-control" [(ngModel)]="model.maxcompatibilityscore">
+              <option *ngFor="let score of scores" value="{{score}}">{{score}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -33,37 +50,51 @@
         <div name="age">
           <div class="form-group">
             <label for="minimumage">Min</label>
-            <input type="range" class="form-control" name="minimumage" id="minimumage" [(ngModel)]="model.minimumage">
+            <select name="minimumage" id="minimumage" class="form-control" [(ngModel)]="model.minimumage">
+              <option *ngFor="let age of ages" value="{{age}}">{{age}}</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="maximumage">Max</label>
-            <input type="range" class="form-control" name="maximumage" id="maximumage" [(ngModel)]="model.maximumage">
+            <select name="maximumage" id="maximumage" class="form-control" [(ngModel)]="model.maximumage">
+              <option *ngFor="let age of ages" value="{{age}}">{{age}}</option>
+            </select>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="height">Height range</label>
+        <label for="height">Height range (cm)</label>
         <div name="height">
           <div class="form-group">
             <label for="minimumheight">Min</label>
-            <input type="range" class="form-control" name="minimumheight" id="minimumheight" [(ngModel)]="model.minimumheight">
+            <select name="minimumheight" id="minimumheight" class="form-control" [(ngModel)]="model.minimumheight">
+              <option *ngFor="let height of heights" value="{{height}}">{{height}}</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="maximumheight">Max</label>
-            <input type="range" class="form-control" name="maximumheight" id="maximumheight" [(ngModel)]="model.maximumheight">
+            <select name="maximumheight" id="maximumheight" class="form-control" [(ngModel)]="model.maximumheight">
+              <option *ngFor="let height of heights" value="{{height}}">{{height}}</option>
+            </select>
           </div>
         </div>
       </div>
       <div class="form-group">
         <label for="distance">Distance (km)</label>
-        <select name="distance" id="distance" [(ngModel)]="model.distanceinkm">
-          <option value="">Please select</option>
+        <select name="distance" id="distance" class="form-control" [(ngModel)]="model.distanceinkm">
+          <option value=""></option>
           <option value="30">lower bound 30 km</option>
           <option value="300">upper bound 300 km</option>
         </select>
       </div>
       <div class="form-group">
-          <button type="button" (click)="getUsers()">Get Users</button>
+          <label for="currentlongitude">Longitude</label>
+          <input type="text" id="currentlongitude" name="currentlongitude" [(ngModel)]="model.currentlongitude">
+          <label for="currentlatitude">Latitude</label>
+          <input type="text" id="currentlatitude" name="currentlatitude" [(ngModel)]="model.currentlatitude">
+      </div>
+      <div class="form-group">
+        <button type="button" class="form-control" (click)="getUsers()">Get Users</button>
       </div>
 
     </form>
@@ -82,13 +113,13 @@
       </tr>
     </thead>
     <tbody *ngIf="results">
-        <tr *ngFor="let user of hack(results.userdata)">
-          <td scope="row">{{user.displayname}}</td>
-          <td>{{user.age}}</td>
-          <td>{{user.height}}</td>
-          <td>{{user.jobtitle}}</td>
-          <td>{{user.religion}}</td>
-        </tr>
+      <tr *ngFor="let user of hack(results.userdata)">
+        <td scope="row">{{user.displayname}}</td>
+        <td>{{user.age}}</td>
+        <td>{{user.height}}</td>
+        <td>{{user.jobtitle}}</td>
+        <td>{{user.religion}}</td>
+      </tr>
     </tbody>
   </table>
 </div>

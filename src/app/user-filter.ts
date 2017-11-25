@@ -1,7 +1,7 @@
 export class UserFilter {
-    hasphoto: boolean;
-    incontact: boolean;
-    isfavourite: boolean;
+    hasphoto: string;
+    incontact: string;
+    isfavourite: string;
     mincompatibilityscore: number;
     maxcompatibilityscore: number;
     minimumage: number;
