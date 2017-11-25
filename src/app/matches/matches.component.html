@@ -1,3 +1,88 @@
-<p>
-  matches works!
-</p>
+<div id="matches-component">
+  <h4>User Search</h4>
+
+  <div class="container">
+    <h1>Hero Form</h1>
+    <form>
+      <div class="form-group">
+        <label for="hasphoto">has photo?</label>
+        <input type="checkbox" class="form-control" id="hasphoto" [(ngModel)]="model.hasphoto" name="hasphoto">
+      </div>
+      <div class="form-group">
+        <label for="incontact">is in contact?</label>
+        <input type="checkbox" class="form-control" id="incontact" [(ngModel)]="model.incontact" name="incontact" >
+      </div>
+      <div class="form-group">
+        <label for="isfavourite">is favourite?</label>
+        <input type="checkbox" class="form-control" id="isfavourite" [(ngModel)]="model.isfavourite" name="isfavourite" >
+      </div>
+      <div class="form-group">
+        <label for="compatibilityscore">Compatibility score range</label>
+        <div name="compatibilityscore">
+          <div class="form-group">
+            <label for="mincompatibilityscore">Min</label>
+            <input type="range" class="form-control" name="mincompatibilityscore" id="mincompatibilityscore" [(ngModel)]="model.mincompatibilityscore" >
+          </div>
+          <div class="form-group">
+            <label for="maxcompatibilityscore">Max</label>
+            <input type="range" class="form-control" name="maxcompatibilityscore" id="maxcompatibilityscore" [(ngModel)]="model.maxcompatibilityscore" >
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="age">Age range</label>
+        <div name="age">
+          <div class="form-group">
+            <label for="minimumage">Min</label>
+            <input type="range" class="form-control" name="minimumage" id="minimumage" [(ngModel)]="model.minimumage" >
+          </div>
+          <div class="form-group">
+            <label for="maximumage">Max</label>
+            <input type="range" class="form-control" name="maximumage" id="maximumage" [(ngModel)]="model.maximumage" >
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="height">Height range</label>
+        <div name="height">
+          <div class="form-group">
+            <label for="minimumheight">Min</label>
+            <input type="range" class="form-control" name="minimumheight" id="minimumheight" [(ngModel)]="model.minimumheight" >
+          </div>
+          <div class="form-group">
+            <label for="maximumheight">Max</label>
+            <input type="range" class="form-control" name="maximumheight" id="maximumheight" [(ngModel)]="model.maximumheight" >
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="distance">Distance (km)</label>
+        <select name="distance" id="distance" [(ngModel)]="model.distanceinkm" >
+            <option value="">Please select</option>
+            <option value="30">lower bound 30 km</option>
+            <option value="300">upper bound 300 km</option>
+          </select>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="container">
+  
+<!--    <li *ngFor="let user of users$ | async"> 
+  <ul class="matches-result">
+  <li *ngFor="let user of users$ | async">
+      {{user.age}}
+    </li>
+  </ul> -->
+  <div *ngIf="results">
+  <ul class="matches-result">
+        <li *ngFor="let mocol of hack(results.userdata)">
+            {{mocol.displayname}}
+          </li>
+        </ul>
+      </div>
+ <p>dd</p> {{results}}
+ pp <p>{{result}}</p>
+</div>
+</div>

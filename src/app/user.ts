@@ -1,4 +1,5 @@
 export class User {
+    id: string;
     displayname: string;
     age: number;
     height: number;
@@ -7,6 +8,6 @@ export class User {
     compatabilityScore: number;
     contactsExchanged: number;
     religion: string;
-    cityname: string;
+    //cityname: string;
     favourite: boolean;
 }
