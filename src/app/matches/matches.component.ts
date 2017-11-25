@@ -30,23 +30,24 @@ export class MatchesComponent implements OnInit {
   constructor(private userFinderService: UserFinderService) { }
 
   ngOnInit() {
-    this.userFinderService.getUsers()
-      .subscribe((result: Result[]) => { this.results = <Result[]>result });
   }
 
-
+  /**
+   * it is in charge to convert the service result in a array.
+   * @param val 
+   */
   hack(val) {
-    console.log("before");
-    console.log(val);
     if (val != null) {
       return Array.from(val);
     }
-    console.log("after");
   }
 
+  /**
+   * invokes the service to search users that match the filters.
+   */
   getUsers(): void {
     this.userFinderService.getUsers()
-      .subscribe((result: Result[]) => this.users = result[0].userdata);
+    .subscribe((result: Result[]) => { this.results = <Result[]>result });
   }
 
 }
