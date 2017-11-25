@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MatchesComponent } from './matches/matches.component';
+import { Configuration } from '../app.constants';
 import { UserFinderService } from './user-finder.service';
 
 
@@ -18,7 +19,10 @@ import { UserFinderService } from './user-finder.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [UserFinderService],
+  providers: [
+    UserFinderService,
+    Configuration
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

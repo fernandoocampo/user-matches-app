@@ -7,21 +7,31 @@ import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { Configuration } from '../app.constants';
+
 @Injectable()
 export class UserFinderService {
 
   // URL to the user finder api
-  private usersUrl = 'http://localhost:8080/userfinder';
+  private usersUrl: string;
 
+  /**
+   * 
+   * @param http http client to consume the API.
+   * @param _configuration Application configuration object.
+   */
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient, 
+    private _configuration: Configuration
+  ) { 
+    this.usersUrl = _configuration.ServerWithApiUrl;
+  }
 
   /**
    * Invoke the remote service to search users.
    */
   getUsers(userFilter:UserFilter): Observable<Result[]> {
-    var newurl = this.buildQueryParams(this.usersUrl,userFilter);
+    var newurl = this.buildUserFinderQueryParams(userFilter);
     return this.http.get<Result[]>(newurl)
       .pipe(
         tap(result => this.log('fetched users')),
@@ -29,7 +39,11 @@ export class UserFinderService {
       );
   }
 
-  buildQueryParams(serviceUri:string, userFilter:UserFilter): string {
+  /**
+   * Build the query params required by user finder service.
+   * @param userFilter The filters selected by the user.
+   */
+  buildUserFinderQueryParams(userFilter:UserFilter): string {
     var isfirstset = false;
     var query = '';
     
@@ -72,9 +86,7 @@ export class UserFinderService {
         }
       }      
     }
-    console.log(query);
-    console.log(serviceUri + query);
-    return serviceUri + query;
+    return this.usersUrl + query;
   }
 
   /**
