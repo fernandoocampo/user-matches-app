@@ -4,7 +4,7 @@ import { UserFilter } from './user-filter';
 import { Result } from './result';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Configuration } from '../app.constants';
@@ -31,8 +31,9 @@ export class UserFinderService {
    * Invoke the remote service to search users.
    */
   getUsers(userFilter:UserFilter): Observable<Result[]> {
-    var newurl = this.buildUserFinderQueryParams(userFilter);
-    return this.http.get<Result[]>(newurl)
+    var queryparams = this.buildUserFinderQueryParams(userFilter);
+    //this.http.request.
+    return this.http.get<Result[]>(this.usersUrl + queryparams)
       .pipe(
         tap(result => this.log('fetched users')),
         catchError(this.handleError('getUsers', []))
@@ -78,7 +79,7 @@ export class UserFinderService {
       }
       if(userFilter.distanceinkm && userFilter.currentlatitude && userFilter.currentlongitude) {
         query = query + "distanceinkm=" + userFilter.distanceinkm + "&inquirerlongitude=" +
-        userFilter.currentlongitude + "&";
+        userFilter.currentlongitude + "&inquirerlatitude=" + userFilter.currentlatitude + "&";
         if(userFilter.distanceinkm === 30) {
           query = query + "distancelowerbound=true";
         } else {
@@ -86,7 +87,57 @@ export class UserFinderService {
         }
       }      
     }
-    return this.usersUrl + query;
+    return query;
+  }
+
+  /**
+   * Build the angular http params required by user finder service.
+   * @param userFilter The filters selected by the user.
+   */
+  buildUserFinderHttpParams(userFilter:UserFilter): HttpParams {
+    var isfirstset = false;
+    let params = new HttpParams();
+    
+    if(userFilter != null) {
+      if(userFilter.hasphoto) {
+        params.append("hasphoto",userFilter.hasphoto);
+      }
+      if(userFilter.incontact) {
+        params.append("incontact",userFilter.incontact);
+      }
+      if(userFilter.isfavourite) {
+        params.append("isfavourite", userFilter.isfavourite);
+      }
+      if(userFilter.minimumage != null || userFilter.minimumage != undefined) {
+        params.append("minage","" + userFilter.minimumage);
+      }
+      if(userFilter.maximumage != null || userFilter.maximumage != undefined) {
+        params.append("maxage","" + userFilter.maximumage);
+      }
+      if(userFilter.mincompatibilityscore) {
+        params.append("mincompatibilityscore","" + userFilter.mincompatibilityscore);
+      }
+      if(userFilter.maxcompatibilityscore) {
+        params.append("maxcompatibilityscore", "" +  userFilter.maxcompatibilityscore);
+      }
+      if(userFilter.minimumheight) {
+        params.append("minheight","" + userFilter.minimumheight);
+      }
+      if(userFilter.maximumheight) {
+        params.append("maxheight","" + userFilter.maximumheight);
+      }
+      if(userFilter.distanceinkm && userFilter.currentlatitude && userFilter.currentlongitude) {
+        params.append("distanceinkm","" + userFilter.distanceinkm); 
+        params.append("inquirerlongitude", "" + userFilter.currentlongitude);
+        params.append("inquirerlatitude", "" + userFilter.currentlatitude);
+        if(userFilter.distanceinkm === 30) {
+          params.append("distancelowerbound","true");
+        } else {
+          params.append("distancelowerbound","false");
+        }
+      }      
+    }
+    return params;
   }
 
   /**
