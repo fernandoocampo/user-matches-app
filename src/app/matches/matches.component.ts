@@ -50,9 +50,10 @@ export class MatchesComponent implements OnInit {
   /**
    * invokes the service to search users that match the filters.
    */
-  getUsers(): void {
+  getUsers(): any {
     this.userFinderService.getUsers(this.model)
     .subscribe((result: Result[]) => { this.results = <Result[]>result });
+    return "";
   }
 
 }
